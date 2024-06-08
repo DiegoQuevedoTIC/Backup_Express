@@ -5,26 +5,18 @@ const Usuarioschema = new Schema ({
 
     nombre: {
         type: String,
-        require: true,
+        required: true,
     },
-    email: {
-        type: String,
-        require: true,
-        unique: true
-    },
-    tipoDocumento: {
-        type: String,
-        require: true
-    },
-    numeroDocumento: {
-        type: Number
-    },
-    peso: {
-        type: String
-    },
-    createAt: {
-        type: Date,
-        default: Date.now(),
+    email: { type: String, required: true, unique: true },
+    tipoDocumento: { type: String, required: true },
+    numeroDocumento: { type: String, required: true, unique: true },
+    login: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    rol: { type: String, required: true, default: "ADMIN" },
+    estado: { type: Boolean, required: true, default: true },
+    createdAt: {
+    type: Date,
+    default: Date.now(),
     }
 })
 
