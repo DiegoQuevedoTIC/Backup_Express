@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-const Usuarioschema = new mongoose_1.Schema({
+const UsuarioSchema = new mongoose_1.Schema({
     nombre: {
         type: String,
         required: true,
@@ -16,8 +16,8 @@ const Usuarioschema = new mongoose_1.Schema({
     createdAt: {
         type: Date,
         default: Date.now(),
-    }
+    },
 });
-const UsuarioModel = (0, mongoose_1.model)("Usuario", Usuarioschema);
+const UsuarioModel = (0, mongoose_1.model)("usuario", UsuarioSchema);
 exports.default = UsuarioModel;
 //# sourceMappingURL=usuario.model.js.map

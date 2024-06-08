@@ -1,57 +1,62 @@
 import express, { Application, Request, Response } from "express";
 import { dbConnection } from "./database/connection";
-import cors from "cors";
+import clienteRoutes from "./routes/cliente.route";
 import usuarioRoutes from "./routes/usuario.route";
+import authRoutes from "./routes/auth.route";
+import productoRoutes from "./routes/producto.route";
+import cors from "cors";
 
-class Server{
+class Server {
+  private app: Application;
+  private port: string;
+  private apiPaths = {
+    cliente: "/api/v1/cliente",
+    usuario: "/api/v1/usuario",
+    auth: "/api/v1/auth",
+    producto: "/api/v1/producto",
+  };
 
-    private app: Application;
-    private port: string;
-    private apiPaths = {
-        usuario:"/api/v1/usuario",
-    };
-    
-    constructor() {
-        this.app = express();
-        this.port= process.env.PORT || "3000";
+  constructor() {
+    this.app = express();
+    this.port = process.env.PORT || "3000";
 
-        //Llamar base de datos
-        dbConnection();
+    // Base de datos
+    dbConnection();
 
-        //Metodos Iniciales
-        this.middlewares();
-        
-        //Rutas
-        this.routes();
-        
-    }
+    // Métodos Iniciales
+    this.middlewares();
 
-    miPrimerApi() {
-        this.app.get("/", (req: Request, res: Response) =>
-            res.status(200).json({ msg: "Api funcionando"})
-        );
-    }
+    // Rutas
+    this.routes();
+  }
 
-    middlewares()  {
-     
-        this.app.use(cors());
+  miPrimeraApi() {
+    this.app.get("/", (req: Request, res: Response) =>
+      res.status(200).json({ msg: "Información" })
+    );
+  }
 
-        // Lectura del Body
+  middlewares() {
+    this.app.use(cors());
 
-        this.app.use(express.json);
-        this.miPrimerApi();
-    
-    }
+    // Lectura del Body
+    this.app.use(express.json());
 
-    routes():void {
-        this.app.use(this.apiPaths.usuario, usuarioRoutes);
-    }
+    this.miPrimeraApi();
+  }
 
-    listen(): void {
-        this.app.listen(this.port,() => {
-            console.log("Servidor Funcionando", this.port);
-        });
-    }
+  routes(): void {
+    this.app.use(this.apiPaths.cliente, clienteRoutes);
+    this.app.use(this.apiPaths.usuario, usuarioRoutes);
+    this.app.use(this.apiPaths.auth, authRoutes);
+    this.app.use(this.apiPaths.producto, productoRoutes);
+  }
+
+  listen(): void {
+    this.app.listen(this.port, () => {
+      console.log("Servidor corriendo en el puerto", this.port);
+    });
+  }
 }
 
 export default Server;

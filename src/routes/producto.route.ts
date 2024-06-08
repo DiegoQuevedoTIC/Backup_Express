@@ -1,6 +1,6 @@
 import { Router } from "express";
 import validateJWT from "../middlewares/validate-jwt";
-import { validateFields } from "../middlewares/validate-fields.ts";
+import { validateFields } from "../middlewares/validate-fields";
 import {
   crearProducto,
   getProductos,

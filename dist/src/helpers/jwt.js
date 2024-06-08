@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const jwt = require("jsonwebtoken");
-const generateJWT = (_id, email, expiresIn = "12h", jwtSecret = "iouifsf45645") => {
+const generateJWT = (_id, login = "", expiresIn = process.env.EXPIRES_IN, jwtSecret = process.env.JWT_SECRET) => {
     return new Promise((resolve, reject) => {
         const payload = {
             _id,

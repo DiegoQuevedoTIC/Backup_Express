@@ -1,38 +1,39 @@
 import { Router } from "express";
+import {
+  crearClientes,
+  deleteCliente,
+  getClientes,
+  getUnCliente,
+  updateCliente,
+  updateEstado,
+} from "../controllers/cliente.controller";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields";
-import {
-  crearUsuario,
-  deleteUsuario,
-  getUnUsuario,
-  getUsuarios,
-  updateUsuario,
-} from "../controllers/usuario.controller";
 import validateJWT from "../middlewares/validate-jwt";
 
-// path: /api/v1/usuario
 const router = Router();
 
 router.post(
   "/",
+  validateJWT,
   [
     check("nombre", "El nombre es obligatorio").not().isEmpty(),
     check("email", "El email es obligatorio").not().isEmpty().isEmail(),
+    check("telefono", "El telefóno es obligatorio").not().isEmpty(),
     check("tipoDocumento", "El tipo de documento es obligatorio")
       .not()
       .isEmpty(),
     check("numeroDocumento", "El número de documento es obligatorio")
       .not()
       .isEmpty(),
-    check("login", "El login es obligatorio").not().isEmpty(),
-    check("password", "El password es obligatorio").not().isEmpty(),
     validateFields,
   ],
-  crearUsuario
+  crearClientes
 );
-router.get("/", validateJWT, getUsuarios);
-router.get("/:id", validateJWT, getUnUsuario);
-router.put("/:id", validateJWT, updateUsuario);
-router.delete("/:id", validateJWT, deleteUsuario);
+router.get("/", getClientes);
+router.get("/:id", validateJWT, getUnCliente);
+router.put("/:id", validateJWT, updateCliente);
+router.put("/estado/:id", validateJWT, updateEstado);
+router.delete("/:id", validateJWT, deleteCliente);
 
 export default router;
